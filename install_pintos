@@ -136,6 +136,8 @@ then
 	Error "Pintos is not recognized"
 fi
 
+section "GDBMACROS"
+sed -i "s+GDBMACROS=/usr/class/cs140/pintos/pintos/src/misc/gdb-macros+GDBMACROS=$PINTOSHOME/src/misc/gdb-macros+" $PINTOSHOME/src/utils/pintos-gdb
 
 
 # set +e does the opposit of set -e
