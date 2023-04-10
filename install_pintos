@@ -128,21 +128,10 @@ echo "export PATH='$PINTOSHOME/src/utils:$PATH'" >> ~/.bashrc
 # give permission to use pintos
 chmod -R 777 $PINTOSHOME
 
-echo "Reload your bashrc then run the next script"
-
-section "Test your pintos path installation"
-temp="$(which pintos | wc -l)"
-if [ $temp -lt 1 ]
-then
-	Error "Pintos is not recognized"
-fi
-
-cd $PINTOSHOME
 
 ########## End Of Pintos Installation ##########
-# Phase specific parts are left as an exercise for the user :)
-
-
+echo "PINTOSHOME is $PINTOSHOME"
+echo "Relod your bashrc"
 # set +e does the opposit of set -e
 # this is needed to revert bash to its original state before the script started
 set +e
