@@ -1,0 +1,143 @@
+#! /bin/bash
+
+# Definitions of needed functions
+section () {
+	# This function prints the name of the current running section in a different color
+	# Useful for debugging and tracing
+	tput setaf 1
+	echo $1
+	tput sgr0
+}
+
+Error () {
+	# Function used to print errors (same as section but different color to indicate errors)
+	tput setaf 4
+	echo $1
+	tput sgr0
+	exit 1
+}
+################### End Of Functions ###################
+# set -e makes the script exit immediately if any error occurs
+set -e
+
+
+section "Updating the system"
+sudo apt update && sudo apt upgrade -y
+
+
+section "Make sure git is installed"
+sudo apt-get install git -y
+
+
+section "Clone pintos repo"
+git clone https://github.com/SajedHassan/CSEx61-pintos.git
+# get the path of pintos
+cd ./CSEx61-pintos
+PINTOSHOME="$(pwd)"
+
+section "Install needed programs"
+
+sudo apt-get install binutils -y
+
+sudo apt-get install pkg-config -y
+sudo apt-get install zlib1g-dev -y
+sudo apt-get install libglib2.0-dev -y
+sudo apt-get install libfdt-dev -y
+sudo apt-get install libpixman-1-dev -y
+sudo apt-get install gcc libc6-dev -y
+sudo apt-get install autoconf -y
+sudo apt-get install libtool -y
+sudo apt-get install libsdl1.2-dev -y
+sudo apt-get install g++ -y
+sudo apt-get install libx11-dev -y
+sudo apt-get install libxrandr-dev -y
+sudo apt-get install libxi-dev -y
+sudo apt-get install libnfs-dev libiscsi-dev -y
+sudo apt-get install valgrind -y
+sudo apt-get install ninja-build -y
+
+sudo apt-get upgrade perl -y
+
+sudo apt-get install libc6-dbg gdb -y
+
+sudo apt-get install make -y
+
+########## End Of Required Dependencies ##########
+
+section "Download Qemu project"
+
+mkdir $HOME/apps
+cd $HOME/apps
+git clone https://gitlab.com/qemu-project/qemu.git
+cd $HOME/apps/qemu
+
+
+section "Prepare a native debug build"
+
+mkdir -p bin/debug/native
+cd bin/debug/native
+
+
+section "Cinfugure your installation"
+
+../../../configure --target-list=x86_64-softmmu --enable-debug
+
+
+section "Build Qemu"
+
+make
+
+
+section "Test your Qemu build by the listing directories of the built first"
+
+cd $HOME/apps/qemu/bin/debug/native/
+temp="$(ls | grep -x x86_64-softmmu | wc -l)"
+if [ $temp -lt 1 ]
+then
+	Error "x86_64-softmmu directory not found"
+fi
+
+section "Check whether each the Qemu binary exists inside the build directoy"
+temp="$(ls | grep -x qemu-system-x86_64 | wc -l)"
+if [ $temp -lt 1 ]
+then
+	Error "x86_64-softmmu directory not found"
+fi
+
+cd $HOME/apps/qemu/bin/debug/native/x86_64-softmmu
+
+section "Make a link of the built Qemu binary inside the /bin to be able to use it from scripts"
+
+sudo ln -s $HOME/apps/qemu/bin/debug/native/x86_64-softmmu/qemu-system-x86_64 /bin/qemu
+
+section "Check that Qemu has been installed correctly"
+temp="$(which qemu | wc -l)"
+if [ $temp -lt 1 ]
+then
+	Error "Qemu is not recognized"
+fi
+
+
+########## End Of Qemu Installation ##########
+
+section "PintOS Installation"
+section "Add PINTOSHOME to path variable"
+echo "export PATH='$PINTOSHOME/src/utils:$PATH'" >> ~/.bashrc
+# give permission to use pintos
+chmod -R 777 $PINTOSHOME
+
+section "Reload environment variables"
+source ~/.bashrc
+
+section "Test your pintos path installation"
+temp="$(which pintos | wc -l)"
+if [ $temp -lt 1 ]
+then
+	Error "Pintos is not recognized"
+fi
+
+
+
+# set +e does the opposit of set -e
+# this is needed to revert bash to its original state before the script started
+set +e
