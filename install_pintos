@@ -30,7 +30,7 @@ sudo apt-get install git -y
 
 
 section "Clone pintos repo"
-git clone https://github.com/YahiaEldakhakhny/CSEx61-pintos-Yahia-Fork.git
+git clone https://github.com/YahiaEldakhakhny/CSEx61-pintos.git
 # get the path of pintos
 cd ./CSEx61-pintos
 PINTOSHOME="$(pwd)"
