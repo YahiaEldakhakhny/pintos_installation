@@ -122,7 +122,14 @@ fi
 
 section "PintOS Installation"
 section "Add PINTOSHOME to path variable"
-echo "export PATH='$PINTOSHOME/src/utils:$PATH'" >> ~/.bashrc
+# Check if $PATH contains any spaces
+SUB=' '
+if [[ "$PATH" == *"$SUB"* ]]; then
+	echo "export PATH='$PINTOSHOME/src/utils:$PATH'" >> ~/.bashrc
+else
+	echo "export PATH=$PINTOSHOME/src/utils:$PATH" >> ~/.bashrc
+fi
+
 # give permission to use pintos
 chmod -R 777 $PINTOSHOME
 
