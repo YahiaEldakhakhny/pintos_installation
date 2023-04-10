@@ -34,6 +34,7 @@ git clone https://github.com/YahiaEldakhakhny/CSEx61-pintos.git
 # get the path of pintos
 cd ./CSEx61-pintos
 PINTOSHOME="$(pwd)"
+echo 
 
 section "Install needed programs"
 
@@ -127,8 +128,7 @@ echo "export PATH='$PINTOSHOME/src/utils:$PATH'" >> ~/.bashrc
 # give permission to use pintos
 chmod -R 777 $PINTOSHOME
 
-section "Reload environment variables"
-source ~/.bashrc
+echo "Reload your bashrc then run the next script"
 
 section "Test your pintos path installation"
 temp="$(which pintos | wc -l)"
@@ -137,17 +137,7 @@ then
 	Error "Pintos is not recognized"
 fi
 
-section "GDBMACROS"
-sed -i "s+GDBMACROS=/usr/class/cs140/pintos/pintos/src/misc/gdb-macros+GDBMACROS=$PINTOSHOME/src/misc/gdb-macros+" $PINTOSHOME/src/utils/pintos-gdb
-
-section "Compile the Utilities, and ignore any warnings"
-cd $PINTOSHOME/src/utils
-make
-
-section "Point to qemu in pintos perl script"
-old='$sim = "bochs" if !defined $sim;'
-new='$sim = "qemu" if !defined $sim;'
-sed -i "s+$old+$new+" $PINTOSHOME/src/utils/pintos
+cd $PINTOSHOME
 
 ########## End Of Pintos Installation ##########
 # Phase specific parts are left as an exercise for the user :)
