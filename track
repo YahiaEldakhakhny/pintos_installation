@@ -1,0 +1,14 @@
+#! /bin/bash
+# This script will be used when you edit a new file and you want to add it to the files tracked by the github
+
+# file is the file that you want to add to the git repo
+file=$1
+file_name="$(basename $file)"
+# rec_dir is the local path of the github repo
+trc_dir=$2
+
+# move file to repo
+mv $file $trc_dir/$file_name
+
+# create link in the folder to point to file in repo
+ln -s $trc_dir/$file_name $file
