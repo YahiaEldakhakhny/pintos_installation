@@ -58,9 +58,9 @@ git pull origin
 ```
 chmod +x track
 ```
-* Make a global link to the script to make the script usable from any directory
+* Make a global link to the script to make the script usable from any directory (use your local full path of the track script instead of `/home/yahia/pintos_installation/track`)
 ```
-ln -s track /bin/track
+sudo ln -s /home/yahia/pintos_installation/track /bin/track
 ```
 
 ## How to use the script
