@@ -40,3 +40,30 @@ Just before the script exits, it prints the $PINTOSHOME environment variable so 
 This creates a backup copy of the machine that you can use in case sothing wrong happens.
 To clone a machine make sure that it is powered off and then right click it, you should see the option `clone`.
 
+
+# Track script
+`track` is a script we can use to track a specific file from pintos and add it to the shared git repo
+
+## Make the script ready to use
+* Clone this repo if you don't have it already
+```
+git clone https://github.com/YahiaEldakhakhny/pintos_installation.git
+```
+* If you already have the repo cloned locally just pull the latest changes
+```
+git pull origin
+```
+***Make sure you cd into this repo before executing the following commands***
+* Make sure that the track script is executable
+```
+chmod +x track
+```
+* Make a global link to the script to make the script usable from any directory (use your local full path of the track script instead of `/home/yahia/pintos_installation/track`)
+```
+sudo ln -s /home/yahia/pintos_installation/track /bin/track
+```
+
+## How to use the script
+Say you want to add the file `threads.c` to the list of files tracked by the shared repo and the path of the shared repo on your machine is `/home/username/shared_repo` then you can track the file using this command:
+```
+track threads.c /home/username/shared_repo
