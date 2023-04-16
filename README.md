@@ -1,4 +1,9 @@
-# Pintos Installation script
+# Contents
+  1. [Pintos Installation Script](#pintos-installation-script)
+  1. [Track Script](#track-script)
+  1. [Get Shared Script](#get-shared-script)
+  
+# Pintos Installation Script
 This script mainly follows the [installation instructions](https://github.com/YahiaEldakhakhny/CSEx61-pintos/blob/main/Installation.md)
 but still it differs from the original instructions in a manner that is optimized for our team
 
@@ -41,7 +46,7 @@ This creates a backup copy of the machine that you can use in case sothing wrong
 To clone a machine make sure that it is powered off and then right click it, you should see the option `clone`.
 
 
-# Track script
+# Track Script
 `track` is a script we can use to track a specific file from pintos and add it to the shared git repo
 
 ## Make the script ready to use
@@ -67,3 +72,43 @@ sudo ln -s /home/yahia/pintos_installation/track /bin/track
 Say you want to add the file `threads.c` to the list of files tracked by the shared repo and the path of the shared repo on your machine is `/home/username/shared_repo` then you can track the file using this command:
 ```
 track threads.c /home/username/shared_repo
+```
+
+# Get Shared Script
+Say you pulled the latest changes of the shared repo and someone added a ***new*** file to the shared repo, but now you have two versions of the same file on your machine:
+* Version 1: This is the old version and it is located in the original pintos directory
+* Version 2: This is the updated one and it is located in the shared repo 
+
+The target now is to remove the old version and replace it with a link that points to the updated version that is located in the shared repo.
+This is where you use the `get_shared script`.
+
+## Make the script ready to use
+* Just like any other script you can get it by either cloning this whole repo or you can just copy it into a file on your local machine
+* Once you have the script in some directory on your machine, cd into that directory and make the script executable
+```
+chmod +x get_shared
+```
+* Now make a global link to the script so you can run it from any other directory (use your local full path of the get_shared script instead of `/home/yahia/pintos_installation/get_shared`)
+```
+sudo ln -s /home/yahia/pintos_installation/get_shared /bin/get_shared
+```
+
+## How to use the script
+Say someone made changes to the file `threads.c` and added it to the shared repo, now when you pulled the latest changes you found that `threads.c` is now in the shared repo and you want to remove your local old version and make a link to the new version.
+
+Assuming that the old version of  `threads.c` is in `/home/username/pintos_dir`, you need to cd into that directory first
+```
+cd /home/username/pintos_dir
+```
+Assuming that the path of the shared repo on your machine is `/home/username/shared_repo`, you can use the script from within `/home/username/pintos_dir`:
+```
+get_shared threads.c /home/username/shared_repo
+```
+After running the script, the old version of the file should be replaced with a link to the updated version
+
+### Notice that:
+* You provide the file first then the path to the shared repo.
+* It does not matter whether you provide only the name of the file or the full path
+* You need to provide the full path of the shared repo
+
+
