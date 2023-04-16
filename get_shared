@@ -1,0 +1,16 @@
+#! /bin/bash
+
+# file is the file that you want to get from the shared repo
+file=$1
+file_name="$(basename $file)"
+
+# local path of the shared repo
+shared_repo=$2
+
+# current directory
+curr_dir="$(pwd)"
+
+# remove the current version of the file
+rm $file
+# create link to point to file in shared_repo
+ln -s $shared_repo/$file_name $curr_dir/$file_name
